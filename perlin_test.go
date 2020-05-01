@@ -9,21 +9,58 @@ import (
 
 const floatTolerance = 0.000001
 
-func TestPerlin_Perlin(t *testing.T) {
-	var x, y, z, got, expected float64
-
-	// if using all whole numbers, perlin should be 0
-	x, y, z, expected = 0.0, 1.0, 2.0, 0.0
-	got = Perlin(x, y, z)
-	if diff := math.Abs(got - 0); diff > floatTolerance {
-		t.Errorf("perlin(%f, %f, %f) = %f; want %f", x, y, z, got, expected)
+func TestPerlin(t *testing.T) {
+	type args struct {
+		x float64
+		y float64
+		z float64
 	}
-
-	// know values, since perlin always generates the same value for same coord settings!
-	x, y, z, expected = 0.1, -0.1, .7, 0.301003
-	got = Perlin(x, y, z)
-	if diff := math.Abs(got - expected); diff > floatTolerance {
-		t.Errorf("perlin(%f, %f, %f) = %f; want %f", x, y, z, got, expected)
+	tests := []struct {
+		name string
+		args args
+		want float64
+	}{
+		{
+			name: "whole numbers",
+			args: args{
+				x: 0.0,
+				y: 1.0,
+				z: 2.0,
+			},
+			want: 0,
+		}, {
+			name: "1d",
+			args: args{
+				x: 0.0,
+				y: 0.0,
+				z: 4.75,
+			},
+			want: -0.22412109375,
+		}, {
+			name: "2d",
+			args: args{
+				x: 0.0,
+				y: -8.42,
+				z: 4.75,
+			},
+			want: -2.3982550411154984,
+		}, {
+			name: "3d",
+			args: args{
+				x: 0.1,
+				y: -0.1,
+				z: .7,
+			},
+			want: 0.301003,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			got := Perlin(tt.args.x, tt.args.y, tt.args.z)
+			if diff := math.Abs(got - tt.want); diff > floatTolerance {
+				t.Errorf("Perlin() = %v, want %v", got, tt.want)
+			}
+		})
 	}
 }
 
