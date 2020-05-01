@@ -9,11 +9,11 @@ Randomness needs to be introduced in the input, the method of which is left to t
 go get github.com/pveeckhout/go-perlin-noise
 ```
 
-#usage
-##Perlin
+# usage
+## Perlin
 generates a perlin noise value for the x, y and z coordiantes passed.
 
-##OctavePerlin
+## OctavePerlin
 While perlin noise generates natural randomness to a degree, it cannot does not cover teh full range of variability 
 expected in nature. For example: terrain has large feature such as mountains, but also smaller variations such as hills
 and depressions, rocks, ...
